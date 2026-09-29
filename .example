@@ -1,0 +1,24 @@
+NODE_ENV=development
+APP_URL=http://localhost:3000        # your public https:// URL in production
+DATABASE_URL=postgresql://user:pass@localhost:5432/urbanhaze
+JWT_SECRET=                          # long random string: openssl rand -hex 48
+USD_TO_BDT=120                       # rate used for SSLCommerz charges
+
+# SSLCommerz (bKash, Nagad, Rocket, local cards). Sandbox keys from sslcommerz.com
+SSL_STORE_ID=
+SSL_STORE_PASS=
+SSL_LIVE=false                       # true only with live keys
+
+# Stripe (needs a Stripe-supported business entity)
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+# Google sign-in (Google Cloud Console > OAuth client ID > Web)
+GOOGLE_CLIENT_ID=
+
+# Password-reset email (any SMTP provider). Leave SMTP_HOST empty to print links in the console.
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+MAIL_FROM="Urban Haze <no-reply@yourdomain.com>"

@@ -1,0 +1,2 @@
+{ "name": "urban-haze", "version": "1.0.0", "type": "module", "private": true,
+  "scripts": { "dev": "node --watch server.js", "start": "node server.js", "db:push": "prisma migrate deploy", "db:dev": "prisma migrate dev" } }

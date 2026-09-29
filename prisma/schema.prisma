@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  phone        String?
+  passwordHash String?       // Argon2id hash; null for Google-only accounts
+  googleId     String?       @unique
+  role         Role          @default(USER)
+  resetHash    String?       // SHA-256 of the emailed reset token
+  resetExpires DateTime?
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  tranId     String   @unique          // public transaction ID
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  amount     Decimal  @db.Decimal(12, 2)
+  currency   String                    // BDT or USD
+  method     String                    // SSLCOMMERZ | STRIPE | BANK_PAYONEER | MFS_MANUAL
+  status     Status   @default(PENDING)
+  gatewayRef String?                   // bank_tran_id / Stripe session
+  reference  String?                   // customer-entered TxID or transfer reference
+  proofPath  String?                   // uploaded receipt (admin-only access)
+  items      Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+}

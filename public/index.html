@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Urban Haze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js'</script>
+<style>
+:root{--fog:#EEEDF5;--mist:#DDDBEC;--ink:#22213A;--muted:#66647F;--violet:#5B4BDB;--amber:#FFB547;--card:#FBFAFF;--line:#D3D0E4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fog:#15142A;--mist:#22203D;--ink:#EEEDF7;--muted:#A5A3C2;--violet:#8B7DFF;--card:#1D1B36;--line:#33305A}}
+:root[data-theme="dark"]{--fog:#15142A;--mist:#22203D;--ink:#EEEDF7;--muted:#A5A3C2;--violet:#8B7DFF;--card:#1D1B36;--line:#33305A}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+html.js:not(.ready){overflow:hidden}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fog);color:var(--ink);font:400 16px/1.55 Figtree,system-ui,sans-serif}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+h1,h2,h3,.logo{font-family:'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+
+/* ---------- INTRO ---------- */
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:radial-gradient(120% 90% at 50% 110%,#4a3fc4 0,#1c1a3d 55%,#12112a 100%);transition:transform 1.1s cubic-bezier(.77,0,.18,1)}
+#intro.leave{transform:translateY(-100%)}
+#intro.gone{display:none}
+.stage{position:relative;width:min(600px,90vw);aspect-ratio:600/220}
+.stage svg{width:100%;height:100%;overflow:visible;-webkit-mask-image:linear-gradient(90deg,#000 0,#000 70%,transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 70%,transparent 100%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-position:100% 0;mask-position:100% 0;transition:opacity .9s ease,filter .9s ease}
+.hello{font-family:'Great Vibes',cursive;font-size:170px;stroke:#fff;stroke-width:1.6;fill:#fff;fill-opacity:0;stroke-dasharray:520;stroke-dashoffset:520}
+#intro.go svg{animation:wipe 2.6s .2s cubic-bezier(.45,.05,.3,1) forwards}
+#intro.go .hello{animation:draw 2.6s .2s cubic-bezier(.45,.05,.3,1) forwards,fillin .9s 2.3s ease forwards}
+#intro.brand svg{opacity:0;filter:blur(8px)}
+@keyframes wipe{to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fillin{to{fill-opacity:1;stroke-opacity:.0}}
+.brandmark{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:800 clamp(34px,8vw,58px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;opacity:0;transform:scale(.94);filter:blur(10px);transition:all 1s cubic-bezier(.2,.7,.2,1) .15s}
+#intro.brand .brandmark{opacity:1;transform:none;filter:none}
+.skip{position:absolute;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:99px;padding:6px 16px;font-size:14px}
+
+/* ---------- NAV ---------- */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(16px,4vw,48px);background:color-mix(in srgb,var(--fog) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-size:22px;font-weight:800;text-decoration:none;color:var(--ink)}
+nav{display:flex;align-items:center;gap:clamp(12px,3vw,28px)}
+nav a{color:var(--muted);text-decoration:none;font-weight:500}
+nav a:hover{color:var(--ink)}
+.cartbtn{display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--fog);border:0;border-radius:99px;padding:9px 18px;font-weight:600}
+.cartbtn b{background:var(--amber);color:#22213A;border-radius:99px;min-width:22px;height:22px;display:grid;place-items:center;font-size:13px;padding:0 6px}
+.cartbtn b.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.5)}}
+
+/* ---------- HERO ---------- */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:32px;max-width:1200px;margin:0 auto;padding:clamp(40px,8vw,110px) clamp(16px,4vw,48px) clamp(40px,6vw,80px)}
+.hero h1{font-size:clamp(44px,7.4vw,96px);line-height:.98;font-weight:800}
+.hero p{max-width:44ch;color:var(--muted);font-size:18px;margin:22px 0 32px}
+.cta{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;font-weight:600;padding:15px 30px;border-radius:99px;transition:transform .2s}
+.cta:hover{transform:translateY(-2px)}
+.rise{transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.js:not(.ready) .rise{opacity:0;transform:translateY(28px)}
+.hero .rise:nth-child(2){transition-delay:.12s}.hero .rise:nth-child(3){transition-delay:.24s}
+/* IMAGE PLACEHOLDER (hero): the .hero-art block below is made of CSS shapes. Replace the whole <div class="hero-art"> with <img src="your-hero.jpg" alt="..."> */
+.hero-art{position:relative;aspect-ratio:1;border-radius:44px;background:linear-gradient(150deg,#8B7DFF,#C9C2FF 60%,#FFD9A0);overflow:hidden;transition-delay:.3s}
+.hero-art i{position:absolute;display:block}
+.hero-art .c1{width:56%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.9);left:8%;top:12%}
+.hero-art .c2{width:40%;aspect-ratio:1;border:16px solid #22213A;border-radius:50%;right:6%;bottom:8%}
+.hero-art .c3{width:30%;aspect-ratio:1;background:var(--amber);clip-path:polygon(50% 5%,95% 90%,5% 90%);right:14%;top:10%}
+.hero-art .c4{width:20%;aspect-ratio:1;background:#22213A;border-radius:28%;left:14%;bottom:12%;transform:rotate(14deg)}
+
+/* ---------- SHOP ---------- */
+section{max-width:1200px;margin:0 auto;padding:40px clamp(16px,4vw,48px)}
+.shophead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:28px}
+.shophead h2{font-size:clamp(32px,4.5vw,52px);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:99px;padding:7px 18px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--fog);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:12px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(60,50,140,.45)}
+.thumb{position:relative;aspect-ratio:1/1;border-radius:18px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,var(--a),var(--b))}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.shape{display:block;width:50%;aspect-ratio:1;background:rgba(255,255,255,.9)}
+.shape.circle{border-radius:50%}
+.shape.ring{border-radius:50%;background:none;border:clamp(10px,2vw,16px) solid rgba(255,255,255,.92)}
+.shape.half{aspect-ratio:2/1;border-radius:999px 999px 0 0;width:56%}
+.shape.squircle{border-radius:30%}
+.shape.pill{width:26%;aspect-ratio:1/2;border-radius:999px}
+.shape.slab{width:32%;aspect-ratio:1/1.9;border-radius:16%}
+.shape.tilt{border-radius:12%;transform:rotate(14deg)}
+.shape.triangle{clip-path:polygon(50% 6%,96% 92%,4% 92%)}
+.shape.hexagon{clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)}
+.tag{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.85);color:#22213A;border-radius:99px;padding:3px 12px;font-size:13px;font-weight:600}
+.info{padding:14px 8px 6px;flex:1}
+.info h3{font-size:20px;font-weight:700}
+.info p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.buy{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 6px}
+.price{font:700 22px 'Bricolage Grotesque',sans-serif}
+.add{border:0;background:var(--violet);color:#fff;border-radius:99px;padding:10px 20px;font-weight:600;transition:background .2s,transform .15s}
+.add:active{transform:scale(.95)}
+.add.ok{background:#1E9E6A}
+.promise{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:12px}
+.promise div{background:var(--mist);border-radius:20px;padding:20px 22px}
+.promise b{display:block;font:700 18px 'Bricolage Grotesque',sans-serif}
+.promise span{color:var(--muted);font-size:15px}
+footer{padding:36px clamp(16px,4vw,48px);text-align:center;color:var(--muted);font-size:14px}
+
+/* ---------- CART ---------- */
+.veil{position:fixed;inset:0;z-index:40;background:rgba(20,18,50,.5);opacity:0;pointer-events:none;transition:opacity .3s}
+.veil.open{opacity:1;pointer-events:auto}
+aside{position:fixed;top:0;right:0;bottom:0;z-index:50;width:min(420px,100%);background:var(--card);padding:calc(20px + env(safe-area-inset-top,0px)) 22px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;transform:translateX(100%);visibility:hidden;transition:transform .45s cubic-bezier(.77,0,.18,1),visibility 0s .45s}
+aside.open{transform:none;visibility:visible;transition:transform .45s cubic-bezier(.77,0,.18,1)}
+aside header{position:static;padding:0 0 14px;background:none;backdrop-filter:none}
+aside h2{font-size:26px}
+.x{border:0;background:var(--mist);width:36px;height:36px;border-radius:50%;font-size:18px}
+#items{flex:1;overflow:auto;padding:6px 0}
+.row{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.mini{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,var(--a),var(--b));overflow:hidden}
+.mini img{width:100%;height:100%;object-fit:cover}
+.mini .shape{width:52%}
+.mini .shape.ring{border-width:6px}
+.row h4{margin:0;font-size:15px}
+.row small{color:var(--muted)}
+.qty{display:flex;align-items:center;gap:8px;margin-top:4px}
+.qty button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:none;line-height:1}
+.rm{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:13px}
+.empty{color:var(--muted);text-align:center;padding:48px 8px}
+.total{display:flex;justify-content:space-between;font:700 20px 'Bricolage Grotesque',sans-serif;padding:16px 0 12px}
+.checkout{width:100%;border:0;background:var(--ink);color:var(--fog);border-radius:99px;padding:15px;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:60;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--fog);padding:12px 22px;border-radius:99px;font-weight:500;transition:all .35s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+@media (max-width:820px){.hero{grid-template-columns:1fr}.hero-art{max-width:420px}nav a{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+<link rel="stylesheet" href="account.css">
+</head>
+<body>
+
+<div id="intro" aria-hidden="true">
+  <div class="stage">
+    <svg viewBox="0 0 600 220"><text class="hello" x="300" y="165" text-anchor="middle">hello</text></svg>
+    <div class="brandmark">Urban Haze</div>
+  </div>
+  <button class="skip" id="skip" tabindex="-1">Skip</button>
+</div>
+
+<header>
+  <a class="logo" href="#top">Urban Haze</a>
+  <nav>
+    <a href="#shop">Shop</a>
+    <a href="#promise">Delivery &amp; returns</a>
+    <button class="acct" id="acctBtn">Sign in</button>
+    <button class="cartbtn" id="openCart" aria-label="Open cart">Cart <b id="count">0</b></button>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div>
+      <h1 class="rise">Clear tech for hazy days.</h1>
+      <p class="rise">Audio, wearables, phones and chargers, picked for how you actually move through the city.</p>
+      <a class="cta rise" href="#shop">Shop products</a>
+    </div>
+    <!-- IMAGE PLACEHOLDER (hero): replace this whole <div class="hero-art"> block with <img src="your-hero.jpg" alt="Urban Haze featured product"> -->
+    <div class="hero-art rise"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+  </div>
+
+  <!-- SIGN-UP SECTION (placed directly below the hero) -->
+  <section id="account">
+    <div class="auth">
+      <div><h2 id="authTitle">Create your account</h2><p class="sub">Track your orders and check out faster.</p></div>
+      <form id="authForm" novalidate>
+        <label class="reg">Full name<input name="name" autocomplete="name" maxlength="80"></label>
+        <label>Email<input name="email" type="email" autocomplete="email"></label>
+        <label class="reg">Phone<input name="phone" type="tel" autocomplete="tel" placeholder="+8801XXXXXXXXX"></label>
+        <label>Password<input name="password" type="password" autocomplete="new-password" minlength="10"></label>
+        <label class="check reg"><input type="checkbox" name="terms"><span>I agree to the <a href="#" data-legal="terms">Terms of Service</a> and <a href="#" data-legal="privacy">Privacy Policy</a></span></label>
+        <p id="authErr" class="err" role="alert"></p>
+        <button class="cta" id="authSubmit" style="border:0;cursor:pointer">Create account</button>
+        <div id="gbtn"></div>
+        <p class="sub small">Continuing with Google also means you accept the Terms and Privacy Policy.</p>
+        <p class="sub"><a href="#" id="toggleMode">I already have an account</a><a href="#" id="forgot" hidden>Forgot password?</a></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="shophead">
+      <h2>Shop</h2>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="promise">
+    <div class="promise">
+      <div><b>Free shipping</b><span>On orders over $100.</span></div>
+      <div><b>30-day returns</b><span>Send it back if it isn't right.</span></div>
+      <div><b>2-year warranty</b><span>On every device we sell.</span></div>
+    </div>
+  </section>
+</main>
+<footer>© 2026 Urban Haze. Sample products and prices.<br><a href="#" data-legal="terms">Terms</a><a href="#" data-legal="privacy">Privacy</a><a href="#" data-legal="refund">Refunds</a></footer>
+
+<dialog id="pay" aria-labelledby="payT">
+  <form id="payForm">
+    <h2 id="payT">Checkout</h2>
+    <p class="sub">Total <b id="payTotal"></b></p>
+    <label class="opt"><input type="radio" name="method" value="ssl" checked> bKash, Nagad, Rocket &amp; local cards</label>
+    <label class="opt"><input type="radio" name="method" value="stripe"> International card (Stripe)</label>
+    <label class="opt"><input type="radio" name="method" value="bank"> Bank transfer / Payoneer</label>
+    <label class="opt"><input type="radio" name="method" value="mfs"> bKash / Nagad / Rocket send money (TxID)</label>
+    <div id="manual" hidden>
+      <!-- REPLACE the details below with your real account details before going live -->
+      <div class="acctbox" id="bankBox"><b>Bank / Payoneer details</b><br>Bank name: YOUR BANK<br>Account holder: YOUR NAME<br>Account number: 0000000000<br>Routing / SWIFT: XXXXXXXX<br>Payoneer email: you@example.com</div>
+      <div class="acctbox" id="mfsBox" hidden><b>Send money to</b><br>bKash / Nagad / Rocket (personal): 01XXXXXXXXX</div>
+      <label>Transaction reference / TxID<input name="reference" maxlength="64"></label>
+      <label>Proof of payment (JPG, PNG or PDF, max 5 MB)<input name="proof" type="file" accept="image/jpeg,image/png,application/pdf"></label>
+    </div>
+    <p id="payErr" class="err" role="alert"></p>
+    <div class="dlgbtns"><button type="button" class="ghost" data-close>Cancel</button><button class="cta" style="border:0;cursor:pointer">Pay now</button></div>
+    <p class="sub small">Card and wallet payments happen on the gateway's own page. Urban Haze never sees or stores your card number.</p>
+  </form>
+</dialog>
+
+<dialog id="dash">
+  <h2>My orders</h2><p class="sub" id="who"></p>
+  <div class="scroll"><table><thead><tr><th>ID</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="txBody"></tbody></table></div>
+  <p class="sub" id="txEmpty">No payments yet.</p>
+  <div class="dlgbtns"><button class="ghost" id="logout">Sign out</button><button class="cta" style="border:0;cursor:pointer" data-close>Close</button></div>
+</dialog>
+
+<!-- LEGAL TEMPLATES: generic starting points. Replace YOUR NAME / email, and have a lawyer review them before launch. -->
+<dialog id="legal">
+  <h2>Policies</h2>
+  <details id="terms"><summary>Terms of Service</summary>
+    <p>By creating an account or placing an order you agree to these terms. You must give accurate information and keep your password private. Prices and stock can change; an order is accepted when we confirm it. We may cancel orders we suspect are fraudulent and will refund any payment taken. Products carry the manufacturer's warranty plus our 2-year warranty as described on this site. We are not liable for indirect losses. These terms are governed by the laws of Bangladesh.</p></details>
+  <details id="privacy"><summary>Privacy Policy</summary>
+    <p><b>What we collect:</b> your name, email, phone number, order and payment records (method, amount, status, gateway reference), and any payment proof you upload.</p>
+    <p><b>What we never store:</b> your password in readable form (only a salted Argon2 hash that nobody, including us, can read) and your card numbers (entered on the payment gateway's page, never on our servers).</p>
+    <p><b>How we use it:</b> to run your account, process and confirm orders, and prevent fraud. We share data only with the payment and delivery providers needed to complete your order. One secure cookie keeps you signed in.</p>
+    <p><b>Your rights:</b> ask to see, correct or delete your data at privacy@yourdomain.com.</p></details>
+  <details id="refund"><summary>Refund &amp; Return Policy</summary>
+    <p>You can return unused items in original packaging within 30 days of delivery. Faulty items are replaced or refunded at no cost to you. Refunds go back to the original payment method within 7 to 10 business days of us receiving the item; bank and Payoneer payments are refunded to the account they came from. Contact support@yourdomain.com to start a return.</p></details>
+  <div class="dlgbtns"><button class="cta" style="border:0;cursor:pointer" data-close>Close</button></div>
+</dialog>
+
+<div class="veil" id="veil"></div>
+<aside id="cart" aria-label="Shopping cart">
+  <header><h2>Your cart</h2><button class="x" id="closeCart" aria-label="Close cart">✕</button></header>
+  <div id="items"></div>
+  <div class="total"><span>Subtotal</span><span id="sub">$0</span></div>
+  <button class="checkout" id="checkout">Check out</button>
+</aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============ PRODUCTS ============
+   To use a real photo: replace  img:null  with  img:"images/your-file.jpg"
+   The geometric shape (shape:"...") is only shown while img is null. */
+const PRODUCTS=[
+ {id:1,name:"Haze Buds Pro",cat:"Audio",price:129,blurb:"Noise-cancelling earbuds, 30h with case",shape:"ring",a:"#8B7DFF",b:"#C9C2FF",img:null}, // IMAGE PLACEHOLDER: replace null with "images/haze-buds-pro.jpg"
+ {id:2,name:"Nimbus Over-Ear",cat:"Audio",price:249,blurb:"Wireless headphones, 40h battery",shape:"half",a:"#FF8F6B",b:"#FFC9A8",img:null}, // IMAGE PLACEHOLDER: replace null with "images/nimbus-over-ear.jpg"
+ {id:3,name:"Orbit Speaker",cat:"Audio",price:89,blurb:"Portable, waterproof, 360° sound",shape:"circle",a:"#3FB6A8",b:"#A6EBDD",img:null}, // IMAGE PLACEHOLDER: replace null with "images/orbit-speaker.jpg"
+ {id:4,name:"Drift Watch S",cat:"Wearables",price:199,blurb:"Smartwatch with 7-day battery",shape:"squircle",a:"#5B4BDB",b:"#A79DFF",img:null}, // IMAGE PLACEHOLDER: replace null with "images/drift-watch-s.jpg"
+ {id:5,name:"Halo Band",cat:"Wearables",price:59,blurb:"Slim fitness band, sleep and heart tracking",shape:"pill",a:"#F2668B",b:"#FFB3C8",img:null}, // IMAGE PLACEHOLDER: replace null with "images/halo-band.jpg"
+ {id:6,name:"Vega 12 Phone",cat:"Devices",price:699,blurb:"6.4\" OLED, 256GB, all-day battery",shape:"slab",a:"#2E2C5E",b:"#6F6BC4",img:null}, // IMAGE PLACEHOLDER: replace null with "images/vega-12-phone.jpg"
+ {id:7,name:"Slate Tab 11",cat:"Devices",price:449,blurb:"11\" tablet for work and streaming",shape:"tilt",a:"#F5A524",b:"#FFDC8A",img:null}, // IMAGE PLACEHOLDER: replace null with "images/slate-tab-11.jpg"
+ {id:8,name:"Pulse Charger 65W",cat:"Power",price:49,blurb:"Fast GaN charger, 3 ports",shape:"triangle",a:"#4C8DF6",b:"#A9CAFF",img:null}, // IMAGE PLACEHOLDER: replace null with "images/pulse-charger.jpg"
+ {id:9,name:"Lumen Power Bank",cat:"Power",price:59,blurb:"20,000mAh, charges a laptop",shape:"hexagon",a:"#7A5CE0",b:"#C4B5FF",img:null} // IMAGE PLACEHOLDER: replace null with "images/lumen-power-bank.jpg"
+];
+
+const $=s=>document.querySelector(s), money=n=>'৳'+n.toLocaleString();
+let cart={}, filter='All';
+
+/* IMAGE PLACEHOLDER (render): shows your image when p.img is set, otherwise the geometric shape */
+const visual=p=>p.img?`<img src="${p.img}" alt="${p.name}">`:`<span class="shape ${p.shape}"></span>`;
+
+function renderShop(){
+  const cats=['All',...new Set(PRODUCTS.map(p=>p.cat))];
+  $('#chips').innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c===filter}" data-c="${c}">${c}</button>`).join('');
+  $('#grid').innerHTML=PRODUCTS.filter(p=>filter==='All'||p.cat===filter).map(p=>`
+   <article class="card">
+     <div class="thumb" style="--a:${p.a};--b:${p.b}">${visual(p)}<span class="tag">${p.cat}</span></div>
+     <div class="info"><h3>${p.name}</h3><p>${p.blurb}</p></div>
+     <div class="buy"><span class="price">${money(p.price)}</span><button class="add" data-id="${p.id}">Add to cart</button></div>
+   </article>`).join('');
+}
+
+function renderCart(){
+  const ids=Object.keys(cart);
+  const n=ids.reduce((s,i)=>s+cart[i],0);
+  const sub=ids.reduce((s,i)=>s+cart[i]*PRODUCTS.find(p=>p.id==i).price,0);
+  $('#count').textContent=n; $('#sub').textContent=money(sub);
+  $('#checkout').disabled=!n; $('#checkout').style.opacity=n?1:.4;
+  $('#items').innerHTML=n?ids.map(i=>{const p=PRODUCTS.find(x=>x.id==i);return `
+   <div class="row">
+     <div class="mini" style="--a:${p.a};--b:${p.b}">${visual(p)}</div>
+     <div><h4>${p.name}</h4><small>${money(p.price)}</small>
+       <div class="qty"><button data-m="${i}" aria-label="Remove one">−</button><span>${cart[i]}</span><button data-p="${i}" aria-label="Add one">+</button></div></div>
+     <button class="rm" data-r="${i}">Remove</button>
+   </div>`}).join(''):'<div class="empty">Your cart is empty. Add something from the shop.</div>';
+}
+
+let tt; function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2200)}
+function setCart(open){$('#cart').classList.toggle('open',open);$('#veil').classList.toggle('open',open)}
+
+$('#chips').onclick=e=>{const c=e.target.dataset.c;if(c){filter=c;renderShop()}};
+$('#grid').onclick=e=>{
+  const b=e.target.closest('.add'); if(!b) return;
+  const id=b.dataset.id; cart[id]=(cart[id]||0)+1; renderCart();
+  const c=$('#count'); c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
+  b.classList.add('ok'); b.textContent='Added'; setTimeout(()=>{b.classList.remove('ok');b.textContent='Add to cart'},1100);
+  toast(PRODUCTS.find(p=>p.id==id).name+' added to cart');
+};
+$('#items').onclick=e=>{
+  const t=e.target.dataset; 
+  if(t.p) cart[t.p]++; else if(t.m){cart[t.m]--; if(!cart[t.m]) delete cart[t.m]} else if(t.r) delete cart[t.r]; else return;
+  renderCart();
+};
+$('#openCart').onclick=()=>setCart(true);
+$('#closeCart').onclick=$('#veil').onclick=()=>setCart(false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setCart(false)});
+/* CHECKOUT: connect your payment page or store checkout here */
+$('#checkout').onclick=()=>toast('Checkout is not connected yet');
+
+renderShop(); renderCart();
+
+/* ============ INTRO ============ */
+(function(){
+  const intro=$('#intro'), root=document.documentElement; let done=false;
+  const finish=()=>{ if(done) return; done=true; intro.classList.add('leave'); setTimeout(()=>root.classList.add('ready'),450); setTimeout(()=>intro.classList.add('gone'),1300) };
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){intro.classList.add('gone');root.classList.add('ready');return}
+  const start=()=>{ intro.classList.add('go'); setTimeout(()=>intro.classList.add('brand'),3500); setTimeout(finish,4900) };
+  Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,1500))]).then(start);
+  $('#skip').onclick=intro.onclick=finish;
+})();
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="account.js"></script>
+</body>
+</html>

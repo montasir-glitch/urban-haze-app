@@ -9,14 +9,15 @@
         "db:push": "prisma migrate deploy",
         "db:dev": "prisma migrate dev"
     },
-  "dependencies": {
-    "express": "^4.19.2",
-    "helmet": "^7.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "morgan": "^1.10.0",
-    "@prisma/client": "^7.10.0"
-  },
+ "dependencies": {
+  "express": "^4.19.2",
+  "helmet": "^7.0.0",
+  "cors": "^2.8.5",
+  "dotenv": "^16.4.5",
+  "morgan": "^1.10.0",
+  "express-rate-limit": "^7.1.5",
+  "@prisma/client": "^7.10.0"
+},
     "devDependencies": {
         "prisma": "^8.0.0-rc.19"
     }

@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: urban-haze
+    env: node
+    buildCommand: npm install && npx prisma generate
+    startCommand: node server.js
+    

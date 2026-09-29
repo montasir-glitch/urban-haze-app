@@ -9,10 +9,11 @@
         "db:push": "prisma migrate deploy",
         "db:dev": "prisma migrate dev"
     },
-    "dependencies": {
-    "express": "^4.19.2",
-    "@prisma/client": "^7.10.0"
-  },
+   "dependencies": {
+  "express": "^4.19.2",
+  "helmet": "^7.0.0",
+  "@prisma/client": "^7.10.0"
+},
     "devDependencies": {
         "prisma": "^8.0.0-rc.19"
     }

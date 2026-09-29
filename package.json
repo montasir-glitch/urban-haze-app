@@ -1,1 +1,19 @@
-{"name":"urban-haze","version":"1.0.0","type":"module","private":true,"scripts":{"dev":"node --watch server.js","start":"node server.js","db:push":"prisma migrate deploy","db:dev":"prisma migrate dev"},"dependencies":{"@prisma/client":"^7.10.0"},"devDependencies":{"prisma":"^8.0.0-rc.19"}}
+{
+    "name": "urban-haze",
+    "version": "1.0.0",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "dev": "node --watch server.js",
+        "start": "node server.js",
+        "db:push": "prisma migrate deploy",
+        "db:dev": "prisma migrate dev"
+    },
+    "dependencies": {
+    "express": "^4.19.2",
+    "@prisma/client": "^7.10.0"
+  },
+    "devDependencies": {
+        "prisma": "^8.0.0-rc.19"
+    }
+}

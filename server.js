@@ -16,10 +16,12 @@ import nodemailer from 'nodemailer';
 import { OAuth2Client } from 'google-auth-library';
 import pkg from '@prisma/client';
 const { PrismaClient } = pkg;
+import { PrismaPg } from '@prisma/adapter-pg';
 
 const E = process.env, PROD = E.NODE_ENV === 'production';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 const stripe = new Stripe(E.STRIPE_SECRET_KEY || 'sk_test_missing');
 const gClient = new OAuth2Client(E.GOOGLE_CLIENT_ID);
 const mailer = nodemailer.createTransport({ host: E.SMTP_HOST, port: +E.SMTP_PORT || 587, auth: { user: E.SMTP_USER, pass: E.SMTP_PASS } });

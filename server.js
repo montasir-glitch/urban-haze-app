@@ -14,7 +14,8 @@ import multer from 'multer';
 import Stripe from 'stripe';
 import nodemailer from 'nodemailer';
 import { OAuth2Client } from 'google-auth-library';
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 const E = process.env, PROD = E.NODE_ENV === 'production';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
